@@ -1,5 +1,4 @@
-import { Entity } from 'typeorm';
-import { Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user')
 export class UserEntity {
@@ -9,12 +8,17 @@ export class UserEntity {
   @CreateDateColumn()
   created: Date;
 
-  @Column('text')
-  name: string;
+  @Column({type: 'text', unique: true})
+  username: string;
 
   @Column('text')
   email: string;
 
   @Column('text')
   password: string;
+
+  toResponseObject() {
+    const { id, created, username, email } = this
+    return { id, created, username, email }
+  }
 }
